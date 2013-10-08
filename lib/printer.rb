@@ -1,44 +1,25 @@
+# require 'erb'. erb should be built-in, so i don't think we have to add it to Gemfile
+
 class Printer
-	attr_accessor :template #needs cells, and values from cells
-	# This board needs the file, the presenter.
-	def initialize
-		@template = File.read("lib/template.txt")
+  attr_accessor :template, :board, :cells #needs cells, and values from cells
+  # This board needs the file, the presenter.
+  def initialize(board)
+    @template = File.open("lib/template.txt")
+    @board = board
+  end
 
-	
-	end
+  # Hash_creator creates a hash from the array of values.
+  # This will be used to call each number.
+  def board_hash_creator
+    # board_hash = Hash.new[(0...cells.size).zip cells]
+  end
 
-	def board_presenter
-		# something to channel the values into unique variable 
-		cell_counter = 1
-		@cells.each do |cell|
-			# go through each cell that in the Board class index and 
-			# and assign it's own unique variable name that then plugs
-			# into the template's string interpolation and makes sure
-			# that value is tied to the unique variable.
-			cell_counter += 1
-			# feeding value information into a unique variable for each cell
-		end
-	         
-	end
+  def board_presenter
+    template.send(board_hash_creator)
 
-	#get information from presenter
+  end
 
+  def print
+    puts template.board_presenter
+  end
 end
-
-print board (file, cell)
-  "#{}".replace_with cell # what methods are available to us on the string class
-end
-
-# This is our attempt to make things print.
-def board_presenter
-	@template.replace(x, cell) # replace x in the string interpolation
-	#with the unique instance of cell
-	x = variable
-end
-
-# (File.read("lib/template.rb")())
-#   "#{}".replace_with |cell| # what methods are available to us on the string class
-# end
-# new_game = Board.new
-
-puts attempt("lib/template.rb", 2)
