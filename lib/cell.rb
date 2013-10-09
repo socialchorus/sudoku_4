@@ -3,24 +3,24 @@ class Cell
 
   BOARD_SIZE = 4
 
-	def initialize(id) #id here connects with the id 
+  def initialize(id) #id here connects with the id 
     #under the board class because the board class' initalize 
     #method calls on Cell.new
-		@id = id
+    @id = id
     @value = 0
-	end
+  end
 
   def inspect
     value.to_s
   end
 
   def row
-  	(id % BOARD_SIZE) + 1 # The mod of the number (+1) 
+    (id % BOARD_SIZE) + 1 # The mod of the number (+1) 
     #should give us the row.
   end
 
   def column
-  	(id / BOARD_SIZE) + 1 # The number, divisble by the board size, + 1 is equal to the column #.
+    (id / BOARD_SIZE) + 1 # The number, divisble by the board size, + 1 is equal to the column #.
   end
 
   def group
@@ -41,5 +41,5 @@ class Cell
   #   @value = new_value
   # end
 
-	# or do we want to create different generators for row and column?
+  # or do we want to create different generators for row and column?
 end
