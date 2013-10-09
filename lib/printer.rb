@@ -21,10 +21,6 @@ class Printer
 
   def print
     render_board_template
-    puts board.value_at(2)
-    puts board.value_at(3)
-    puts board.value_at(4)
-
   end
 
 end
