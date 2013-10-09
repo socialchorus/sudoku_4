@@ -1,3 +1,22 @@
+
+Steps for number replacement on template:
+# Read board
+
+# Gets matching patterns 
+        # "hello".gsub(/(?<foo>[aeiou])/, '{\k<foo>}')  #=> "h{e}ll{o}"
+    # puts template.gsub(/?<foo>[pattern_extractor]/, '\k<foo>value_att(pattern_extractor)')
+    # {|digit| do board.value_at(digit).to_s} 
+    # template.render ?? value_at ??
+# Extracts the number
+# Render / sticks it back in
+# Print
+
+
+
+
+
+
+
 ((\s_{3}\s_{3}\s){2}((\|(\s){3}\|(\s){3}\|){2}\s(\|_{3}\|_{3}\|){2}\s){2}){2} #This is the one we're using
 
 ((\s+_{3}){4}\s((\|+\s{3}){4}\|\s(\|+_{3}){4}\|\s){2}){2} #This one also works.

@@ -1,41 +1,30 @@
 class Printer
-  attr_accessor :board
+  attr_accessor :board, :template
 
   def initialize(board)
-    # @template = open("lib/template.txt").read
+    @template = File.open("lib/template.txt").read
     @board = board
   end
 
-  def mustache_board
-
+  def pattern_extractor
+    template.scan(/\{\{\d+\}\}/) 
   end
 
-  def board_presenter
-    # template.send(board_hash_creator)
+  def render_board_template
+    pattern_extractor.each do |pattern|
+      num = pattern.scan(/\d+/).first
+      template.sub!(pattern, board.value_at(num.to_i).to_s) 
+    end
+    puts template
   end
 
-  def read_board
-  end
-
-  # Gets matching patterns /\{{2}\d+\}{2}/
-  def get_mustache
-  end
-
-  def num_extractor
-    from_template = get_mustache.detect{|digit| digit = \d+} 
-    from_template
-  end
-
-# Read board
-
-
-# Extracts the number
-# calls value_at(#)
-# Render / sticks it back in
-# Print
 
   def print
-    # board.value_at(num_extractor)
+    render_board_template
+    puts board.value_at(2)
+    puts board.value_at(3)
+    puts board.value_at(4)
+
   end
 
 end

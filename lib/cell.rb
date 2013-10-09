@@ -3,11 +3,10 @@ class Cell
 
   BOARD_SIZE = 4
 
-  def initialize(id) #id here connects with the id 
-    #under the board class because the board class' initalize 
-    #method calls on Cell.new
+  def initialize(id) 
     @id = id
-    @value = 0
+    @value = rand(BOARD_SIZE) + 1
+    # puts "This is #{id}'s #{value}"
   end
 
   def inspect
@@ -34,12 +33,6 @@ class Cell
     when 10,11,14,15
       4
     end
-    # to be refactored 
   end
 
-  # def cell_update
-  #   @value = new_value
-  # end
-
-  # or do we want to create different generators for row and column?
 end

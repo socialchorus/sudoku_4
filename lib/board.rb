@@ -1,5 +1,5 @@
 class Board
-  attr_accessor :cells
+  attr_reader :cells
 
   def initialize
     @cells = (0..15).map do |index|
@@ -9,7 +9,7 @@ class Board
   end
 
   def value_at(id)
-    found_cell = cells.detect{|cell| cell.id = id}
+    found_cell = cells.detect{|cell| cell.id == id}
     found_cell.value  
   end
 
