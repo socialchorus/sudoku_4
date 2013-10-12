@@ -2,18 +2,19 @@ class Board
   attr_accessor :cells
 
   def initialize
-    @cells = (0..15).each do |id|
+    @cells = (0..15).map do |id|
       Cell.new(id)
     end
   end
 
-  # def value_at(id)
-  #   id_for_value = cells.detect{ |cell| cell.id == id }
-  #   id_for_value.value
-  # end
+  def value_at(id)
+    found_cell = cells.detect {|cell| cell.id == id}
+    found_cell.value || " "
+  end
 
   def print
-    true
+    printer = Printer.new(self)
+    printer.print
   end
 
 end
