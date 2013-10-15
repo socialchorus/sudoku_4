@@ -3,14 +3,16 @@ require 'spec_helper'
 describe Board do
   let(:board) {Board.new}
 
-  context 'when we initialize a board' do
-    it 'cells collection should have a length of 16' do
-      board.cells.count.should == 16
-    end
+  describe "#initialize" do
+    context 'when we initialize a board' do
+      it 'cells collection should have a length of 16' do
+        board.cells.count.should == 16
+      end
 
-    it 'cells collection contains cells' do
-      board.cells.each do |cell|
-        cell.is_a?(Cell).should == true
+      it 'cells collection contains cells' do
+        board.cells.each do |cell|
+          cell.is_a?(Cell).should == true
+        end
       end
     end
   end
@@ -31,7 +33,7 @@ describe Board do
     end
   end
   
-  describe '#print' do 
+  describe "#print" do 
     let(:printer) {double("printer")}
     
     before do

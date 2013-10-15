@@ -1,7 +1,9 @@
 class Cell
-  attr_accessor :value, :id
+  attr_accessor :id, :value
+
   def initialize(id)
     @id = id
     @value = nil
   end
+
 end

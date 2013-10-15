@@ -1,2 +1,2 @@
-# board = Board.new
-# board.print
+board = Board.new
+board.print
