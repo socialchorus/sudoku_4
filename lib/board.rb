@@ -1,7 +1,10 @@
 class Board
   attr_accessor :cells
+  attr_reader :stdin, :stdout
 
-  def initialize
+  def initialize(stdin, stdout)
+    @stdin = stdin
+    @stdout = stdout
     @cells = (0..15).map {|id| Cell.new(id)}
   end
 
@@ -26,7 +29,7 @@ class Board
   end
 
   def print
-    printer = Printer.new(self)
+    printer = Printer.new(self, stdout)
     printer.print
   end
 

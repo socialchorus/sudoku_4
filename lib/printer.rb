@@ -1,7 +1,9 @@
 class Printer
   attr_accessor :board, :template
+  attr_reader :stdout
 
-  def initialize(board)
+  def initialize(board, stdout)
+    @stdout = stdout
     @board = board
     @template = File.open('lib/template.txt').read
   end
@@ -23,6 +25,6 @@ class Printer
   end
   
   def put_string str
-    $stdout.puts str 
+    stdout.puts str 
   end
 end

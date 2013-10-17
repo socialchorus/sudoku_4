@@ -3,4 +3,5 @@ Feature: Empty Board
 
   Scenario: Starting the game with an Empty board
     Given I have started the game
-      Then I will see an empty board
+    Then I will see an empty board
+

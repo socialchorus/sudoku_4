@@ -1,9 +1,4 @@
-board = Board.new
-board.print
+require_relative '../sudoku'
 
-while !board.full?
-	puts "Press enter to fill the next cell"
-	gets
-	board.fill_next_cell
-	board.print 
-end
+Game.new($stdin, $stdout).run
+
