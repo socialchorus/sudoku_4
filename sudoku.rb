@@ -1,8 +1,5 @@
-$: << './lib/' # manifest that requires all the files 
+require File.dirname(__FILE__) + "/manifest.rb"
 
-require 'printer'
-require 'cell'
-require 'board'
-require 'game'
+Game.new($stdin, $stdout).run
 
-
+	
