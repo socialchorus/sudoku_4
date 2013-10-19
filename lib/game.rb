@@ -14,6 +14,7 @@ class Game
     while !board.full?
       stdout.puts "Press enter to fill the next cell"
       stdin.gets
+      puts 'got past the gets'
       board.fill_next_cell
       board.print 
     end
