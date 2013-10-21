@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Printer do
   let(:board) { double('board') }
-  let(:printer) { Printer.new(board) }
+  let(:printer) { Printer.new(board, $stdout) }
 
   describe "#initialize" do
     context 'when we initialize a printer' do      

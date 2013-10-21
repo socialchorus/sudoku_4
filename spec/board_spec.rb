@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Board do
-  let(:board) {Board.new}
+  let(:board) {Board.new($stdin, $stdout)}
 
   describe "#initialize" do
     context 'when we initialize a board' do
@@ -42,7 +42,7 @@ describe Board do
     end
 
     it 'makes a new printer' do
-      Printer.should_receive(:new).with(board).and_return(printer)
+      Printer.should_receive(:new).with(board, $stdout).and_return(printer)
       board.print
     end
 

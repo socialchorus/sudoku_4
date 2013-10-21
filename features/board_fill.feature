@@ -4,7 +4,6 @@ Feature: Board Displays and Fills with Random Numbers
   Scenario: Starting the game and filling the board
     Given I have started the game
     Then I will see an empty board
-    When I press enter
-    Then I will see 16 boards with cells populately consecutively with numbers between 1 and 4
+    And I will see 16 boards with cells populately consecutively with numbers between 1 and 4
 
  
