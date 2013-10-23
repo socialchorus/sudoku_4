@@ -8,13 +8,25 @@ class Game
   end
 
   def run
-    board.print
+    printroduction
 
     while !board.full?
-      stdout.puts "Press enter to fill the next cell"
-      stdin.gets
-      board.fill_empty_cell
-      board.print
+      take_turn
     end
+  end
+
+  def prompt_for_input
+    stdout.puts "Press enter to fill the next cell"
+    stdin.gets
+  end
+ 
+  def take_turn
+    prompt_for_input
+    board.fill_empty_cell
+    board.print
+  end
+
+  def printroduction
+    board.print
   end
 end

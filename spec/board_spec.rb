@@ -1,7 +1,9 @@
 require 'spec_helper'
 
 describe Board do
-  let(:board) {Board.new($stdin, $stdout)}
+  let(:board) {Board.new(stdin, stdout)}
+  let(:stdin) {double("stdin")}
+  let(:stdout) {double("stdout")}
 
   describe "#initialize" do
     context 'when we initialize a board' do
@@ -36,13 +38,6 @@ describe Board do
   describe "#full?" do 
     context 'when every cell has a non-nil value' do
       it 'should return true' do
-        # mock_cell = double('cell', value: 3)
-        # Cell.stub(:new).and_return(mock_cell)
-
-        # every_cell = Cell.new('id')
-        # every_cell.value = 3
-        # Cell.stub(:new).and_return(every_cell)
-
         Cell.any_instance.stub(:value).and_return(3)  
 
         board.full?.should == true
@@ -100,7 +95,7 @@ describe Board do
     end
 
     it 'makes a new printer' do
-      Printer.should_receive(:new).with(board, $stdout).and_return(printer)
+      Printer.should_receive(:new).with(board, stdout).and_return(printer)
       board.print
     end
 
