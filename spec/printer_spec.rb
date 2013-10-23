@@ -5,7 +5,7 @@ describe Printer do
   let(:printer) { Printer.new(board, $stdout) }
 
   describe "#initialize" do
-    context 'when we initialize a printer' do      
+    context 'when we initialize a printer' do
       it 'should store the board' do
         printer.board.should == board
       end

@@ -1,4 +1,3 @@
-
 class Game
   attr_reader :stdin, :stdout, :board
 
@@ -14,7 +13,7 @@ class Game
     while !board.full?
       stdout.puts "Press enter to fill the next cell"
       stdin.gets
-      board.fill_next_cell
+      board.fill_empty_cell
       board.print
     end
   end

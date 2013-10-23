@@ -7,7 +7,7 @@ class Cell
   end
 
   def generate_value
-  	self.value = rand(1..4)
+    self.value = rand(1..4)
   end
 
   def empty?

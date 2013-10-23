@@ -17,15 +17,15 @@ class Board
   end
 
   def full? 
-    !first_empty_cell
+    !get_empty_cell
   end
 
-  def first_empty_cell
+  def get_empty_cell
     cells.detect { |cell| cell.empty? }
   end
 
-  def fill_next_cell
-    first_empty_cell.generate_value
+  def fill_empty_cell
+    get_empty_cell.generate_value
   end
 
   def print

@@ -15,10 +15,10 @@ Then(/^I will see an empty board$/) do
 end
 
 Then(/^I will see (\d+) boards with cells populately consecutively with numbers between (\d+) and (\d+)$/) do |arg1, arg2, arg3|
-  count = 0
+  iterator = 0
   @split_boards.each do |board|
     numbers = board.scan(/\d+/)
-    numbers.count.should eql count
-    count += 1
+    numbers.count.should eql iterator
+    iterator += 1
   end
 end

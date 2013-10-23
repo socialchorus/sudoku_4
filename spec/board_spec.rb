@@ -28,11 +28,69 @@ describe Board do
     context 'when cell value is a number' do
       it 'value should equal that number' do
         Cell.any_instance.stub(:value).and_return(2)
-        board.value_at(3).should == 2
+        board.value_at(15).should == 2
+      end
+    end
+  end
+
+  describe "#full?" do 
+    context 'when every cell has a non-nil value' do
+      it 'should return true' do
+        # mock_cell = double('cell', value: 3)
+        # Cell.stub(:new).and_return(mock_cell)
+
+        # every_cell = Cell.new('id')
+        # every_cell.value = 3
+        # Cell.stub(:new).and_return(every_cell)
+
+        Cell.any_instance.stub(:value).and_return(3)  
+
+        board.full?.should == true
+      end
+    end
+
+    context 'when any cell has a nil value' do
+      it 'should be false' do
+        Cell.any_instance.stub(:value).and_return(3)
+        board.cells[15].stub(:value).and_return(nil)
+        board.full?.should == false        
       end
     end
   end
   
+  describe "#get_empty_cell" do
+    before do
+      Cell.any_instance.stub(:value).and_return(3)
+    end
+
+    context 'there are no empty cells' do
+      it "returns something falsy" do
+        board.get_empty_cell.should be_false
+      end
+    end
+
+    context "there is an empty cell" do
+      it "returns that cell" do
+        board.cells[2].stub(:value).and_return(nil)
+        board.get_empty_cell.should == board.cells[2]
+      end
+    end
+  end
+
+  describe "#fill_empty_cell" do
+    before do
+      Cell.any_instance.stub(:value).and_return(3)
+      board.cells[2].stub(:value).and_return(nil)
+    end
+
+    context 'there is an empty cell' do
+      it 'should generate a value for that cell' do
+        board.cells[2].stub(:generate_value).and_return(4)
+        board.fill_empty_cell.should == 4
+      end
+    end
+  end
+
   describe "#print" do 
     let(:printer) {double("printer")}
     
