@@ -5,13 +5,25 @@ describe Cell do
 
   describe "#initialize" do
     context "when we initialize a cell" do
+      it "should store its id" do
+        cell.id.should == 1
+      end
+
       it "value is nil" do
         cell.value.should == nil
       end
 
-      it "should store its id" do
-        cell.id.should == 1
+      xit "group number is stored" do
+
       end
+
+      xit "row number is stored" do
+
+      end
+
+      xit "column number is stored" do
+
+      end 
     end
   end
 

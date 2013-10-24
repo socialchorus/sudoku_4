@@ -86,6 +86,46 @@ describe Board do
     end
   end
 
+  describe '#numbers_valid?' do
+    xit 'should return false if numbers are not valid' do
+
+    end
+
+    xit 'should return true if numbers are valid' do
+
+    end
+  end
+
+  describe '#group_numbers_valid?' do
+    xit 'should return false if numbers are not valid' do
+
+    end
+
+    xit 'should return true if numbers are valid' do
+
+    end
+  end
+
+  describe '#row_numbers_valid?' do
+    xit 'should return false if numbers are not valid' do
+
+    end
+
+    xit 'should return true if numbers are valid' do
+
+    end
+  end
+
+  describe '#column_numbers_valid?' do
+    xit 'should return false if numbers are not valid' do
+
+    end
+
+    xit 'should return true if numbers are valid' do
+
+    end
+  end
+  
   describe "#print" do 
     let(:printer) {double("printer")}
     

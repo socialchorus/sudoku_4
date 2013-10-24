@@ -53,6 +53,10 @@ describe Game do
       board.should_receive(:print)
       game.take_turn
     end
+
+    xit 'checks the validity of the board numbers' do
+    
+    end
   end
 
   describe '#run' do
@@ -78,8 +82,31 @@ describe Game do
       end
       game.should_receive(:take_turn).exactly(3).times
       game.run
-    end
+    end 
   end 
+
+  describe '#board_numbers_valid?' do
+    xit 'returns true if the board is valid' do
+
+      game.valid?
+    end
+
+    xit 'returns false if the board is invalid' do
+
+      game.valid?
+    end
+  end
+
+  describe '#board_invalid_error' do
+    xit 'puts an error message' do
+
+    end
+  end
+
+  describe '#create_new_board' do
+    xit 'generates a new board' do
+    end
+  end
 end
 
 

@@ -32,5 +32,4 @@ class Board
     printer = Printer.new(self, stdout)
     printer.print
   end
-
 end

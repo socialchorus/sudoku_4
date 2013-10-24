@@ -30,3 +30,5 @@ class Game
     board.print
   end
 end
+
+
