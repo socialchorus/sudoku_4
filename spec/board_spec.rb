@@ -87,43 +87,23 @@ describe Board do
   end
 
   describe '#numbers_valid?' do
-    xit 'should return false if numbers are not valid' do
-
-    end
-
-    xit 'should return true if numbers are valid' do
-
-    end
+    it 'should return false if numbers are not valid'
+    it 'should return true if numbers are valid'
   end
 
   describe '#group_numbers_valid?' do
-    xit 'should return false if numbers are not valid' do
-
-    end
-
-    xit 'should return true if numbers are valid' do
-
-    end
+    it 'should return false if numbers are not valid'
+    it 'should return true if numbers are valid'
   end
 
   describe '#row_numbers_valid?' do
-    xit 'should return false if numbers are not valid' do
-
-    end
-
-    xit 'should return true if numbers are valid' do
-
-    end
+    it 'should return false if numbers are not valid'
+    it 'should return true if numbers are valid'
   end
 
   describe '#column_numbers_valid?' do
-    xit 'should return false if numbers are not valid' do
-
-    end
-
-    xit 'should return true if numbers are valid' do
-
-    end
+    it 'should return false if numbers are not valid'
+    it 'should return true if numbers are valid'
   end
   
   describe "#print" do 

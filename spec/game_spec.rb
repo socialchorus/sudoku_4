@@ -54,9 +54,7 @@ describe Game do
       game.take_turn
     end
 
-    xit 'checks the validity of the board numbers' do
-    
-    end
+    it 'checks the validity of the board numbers'
   end
 
   describe '#run' do
@@ -86,26 +84,16 @@ describe Game do
   end 
 
   describe '#board_numbers_valid?' do
-    xit 'returns true if the board is valid' do
-
-      game.valid?
-    end
-
-    xit 'returns false if the board is invalid' do
-
-      game.valid?
-    end
+    it 'returns true if the board is valid'
+    it 'returns false if the board is invalid'
   end
 
   describe '#board_invalid_error' do
-    xit 'puts an error message' do
-
-    end
+    it 'puts an error message'
   end
 
   describe '#create_new_board' do
-    xit 'generates a new board' do
-    end
+    it 'generates a new board'
   end
 end
 

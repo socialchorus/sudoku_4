@@ -12,18 +12,10 @@ describe Cell do
       it "value is nil" do
         cell.value.should == nil
       end
-
-      xit "group number is stored" do
-
-      end
-
-      xit "row number is stored" do
-
-      end
-
-      xit "column number is stored" do
-
-      end 
+      
+      it "group number is stored"
+      it "row number is stored"
+      it "column number is stored"
     end
   end
 
