@@ -26,7 +26,23 @@ describe Game do
     end
   end
 
-  describe '#take_turn' do
+  describe '#valid?' do
+    context 'board is valid' do
+      it 'checks validity of board' do
+        board.should_receive(:valid?).and_return(true)
+        game.valid?
+      end
+    end
+
+    context 'board is invalid' do
+      it 'checks validity of board' do
+        board.should_receive(:valid?).and_return(false)
+        game.valid?
+      end
+    end
+  end
+
+  describe '#auto_take_turn' do
     before do
       board.stub(:fill_empty_cell)
       board.stub(:print)
@@ -36,25 +52,70 @@ describe Game do
 
     it 'prompts for input' do 
       stdout.should_receive(:puts).with(an_instance_of(String))
-      game.take_turn
+      game.auto_take_turn
     end
 
     it 'waits for input' do 
       stdin.should_receive(:gets)
-      game.take_turn
+      game.auto_take_turn
     end
 
     it 'tells the board to fill an empty cell' do
       board.should_receive(:fill_empty_cell)
+      game.auto_take_turn
+    end
+
+    it 'tells the board to print' do
+      board.should_receive(:print)
+      game.auto_take_turn
+    end
+
+    it 'checks the validity of the board numbers' do
+      game.valid?.should_not == nil
+    end
+  end
+
+  describe '#take_turn' do
+    before do
+      board.stub(:index)
+      board.stub(:print)
+      stdin.stub(:gets)
+      stdout.stub(:puts)
+    end
+
+    it 'prompts user to input index' do
+      stdout.should_receive(:puts).with(an_instance_of(String))
       game.take_turn
     end
+
+    it 'prompt user to input value (1-4)' do
+      stdin.should_receive(:gets).with(an_instance_of(String))
+      game.take_turn
+    end
+
+    it 'tells the board users index and value inputs' do
+      board.should_receive(:index)
+      board.should_receive(:value) # TODO see if should_receive can take two arguments
+      game.take_turn
+    end
+
+    it 'fills the board according to the users input' 
 
     it 'tells the board to print' do
       board.should_receive(:print)
       game.take_turn
     end
 
-    it 'checks the validity of the board numbers'
+    it 'checks the validity of the board numbers' do
+      game.valid?.should_not == nil
+    end
+  end
+
+  describe '#values' do
+    it 'returns the values on the board' do
+      board.should_receive(:values).and_return(an_instance_of(Array))
+      game.values
+    end
   end
 
   describe '#run' do
@@ -78,23 +139,22 @@ describe Game do
           true
         end
       end
-      game.should_receive(:take_turn).exactly(3).times
+
+      game.should_receive(:auto_take_turn).exactly(3).times
       game.run
     end 
-  end 
-
-  describe '#board_numbers_valid?' do
-    it 'returns true if the board is valid'
-    it 'returns false if the board is invalid'
   end
 
-  describe '#board_invalid_error' do
-    it 'puts an error message'
-  end
+  describe '#board_invalid' do
+    it 'puts an error message' do
+      stdout.should_receive(:puts).with(an_instance_of(String))
+      game.board_invalid
+    end
 
-  describe '#create_new_board' do
-    it 'generates a new board'
+    it 'generates a new board' do
+      Board.should_receive(:new).with(stdin, stdout).and_return(board)
+      game.board.should == board
+      game.board_invalid
+    end
   end
 end
-
-

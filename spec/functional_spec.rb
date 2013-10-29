@@ -5,10 +5,6 @@ describe Game do
   let(:input) {StringIO.new("")}
   let(:output) {StringIO.new("")}
 
-  before do
-    @boards = []
-  end
-
   describe 'user starts the game' do
     before do
       game.printroduction
@@ -25,7 +21,7 @@ describe Game do
 
   describe 'taking the first turn' do
     before do
-      game.take_turn
+      game.auto_take_turn
     end
 
     it 'a value is entered into an empty cell' do
@@ -36,44 +32,97 @@ describe Game do
       read_output.should =~ /\|/
     end
 
-    xit 'board should be valid' do
+    it 'board should be valid' do
       game.should be_valid
     end
   end
 
   describe 'other turns' do
-    before do
-      game.take_turn 
-    end
 
-    it 'a value is entered into the next empty cell' do
-      output.rewind
-      @boards << output.read
-      @split_boards = @boards[0].split "Press enter to fill the next cell\n"
-      (0..game.turns_taken).each do |number|
-        @split_boards[number].scan(/\d+/).count.should == number
+    before do
+      game.auto_take_turn
+    end
+    
+    context 'whether or not board is valid' do
+      before do
+        output.string = ""
+        game.auto_take_turn
+      end
+
+      it 'a value is entered into an empty cell' do
+        read_output.scan(/\d+/).count.should == 2
+      end
+
+      it 'prints the board' do
+        read_output.should =~ /\|/
       end
     end
 
-    it 'prints the board'
-
     context 'the board values are valid' do
-      it 'takes the next turn'
+      let(:index) {1}
+      let(:value) do 
+        if game.values.first != 4
+          value += 1
+        else
+          1
+        end
+      end
+
+      before do
+        output.string = ""
+        game.take_turn(index, value)
+      end
+
+      it 'doesnt print an error message' do
+        read_output.should_not include("invalid")
+      end
+
+      it 'doesnt clear the board' do
+        read_output.should =~ /\d+/
+        puts read_output
+      end
     end
     
     context 'the board values are invalid' do
-      it 'prints an error message' 
-      xit 'generates a new board' do
-        output.string = ""
+      let(:index) {1}
+      let(:value) {game.values.first}
 
+      before do
+        output.string = ""
+        game.take_turn(index, value)
       end
-      it 'takes the first turn'
+
+      it 'prints an error message' do
+        read_output.should include("invalid")
+      end
+
+      it 'clears the board' do
+        read_output.should_not =~ /\d+/
+      end
     end
   end
 
-  describe 'all turns taken' do   
-    it 'board is valid'
-    it 'board should be full'
-    it 'displays board complete message'
+  describe 'all turns taken' do
+    let(:last_board) {split_boards.last}
+    let(:last_board_values) {last_board.scan(/\d+/)}
+    before do
+      game.run
+    end
+
+    it 'board is valid' do
+      output_numbers = last_board_values.map do |value|
+        value.to_i
+      end 
+      game.valid?.should == true
+      game.values == output_numbers
+    end
+
+    it 'board should be full' do
+      last_board_values.count.should == 16
+    end
+
+    it 'displays board complete message' do
+      last_board.should include("complete")
+    end
   end
 end

@@ -1,15 +1,18 @@
 Given(/^that I start the game$/) do
   @input = StringIO.new("")
   @output = StringIO.new("")
-  @boards = []
-  Game.new(@input, @output).run
+  @game = Game.new(@input, @output)
+  @game.run
 end
 
 Then(/^I will eventually see a valid board$/) do
-  @output.rewind
-  @boards << @output.read
-  @split_boards = @boards[0].split "Press enter to fill the next cell\n"
-  @split_boards[16].scan(/\d+/).count.should == 16
-  @split_boards[16].scan(/\d+/).valid?.should == true 
+  last_board = split_boards(@output).last
+  last_board_values = last_board.scan(/\d+/)
+  last_board_values.count.should == 16
+  output_numbers = last_board_values.map do |value|
+    value.to_i
+  end 
+  @game.valid?.should == true
+  @game.values == output_numbers
 end
 
