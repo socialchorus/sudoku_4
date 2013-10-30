@@ -10,13 +10,17 @@ class Board
 
   def values
     values_array = []
-    (0..16).each do |id|
+    (0..15).each do |id|
       found_cell_value = found_cell(id).value
       if found_cell_value != nil
         values_array << found_cell_value
       end
     end
     values_array
+  end
+
+  def valid?
+    rows_valid? && columns_valid? && groups_valid?
   end
 
   def found_cell(id)
