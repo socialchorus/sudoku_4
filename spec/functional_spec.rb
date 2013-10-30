@@ -78,8 +78,7 @@ describe Game do
       end
 
       it 'doesnt clear the board' do
-        read_output.should =~ /\d+/
-        puts read_output
+        game.values.should_not be_empty
       end
     end
     
@@ -97,7 +96,7 @@ describe Game do
       end
 
       it 'clears the board' do
-        read_output.should_not =~ /\d+/
+        game.values.should be_empty
       end
     end
   end

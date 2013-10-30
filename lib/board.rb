@@ -8,6 +8,17 @@ class Board
     @cells = (0..15).map {|id| Cell.new(id)}
   end
 
+  def values
+    values_array = []
+    (0..16).each do |id|
+      found_cell_value = found_cell(id).value
+      if found_cell_value != nil
+        values_array << found_cell_value
+      end
+    end
+    values_array
+  end
+
   def found_cell(id)
     cells.detect {|cell| cell.id == id}
   end

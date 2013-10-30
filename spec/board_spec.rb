@@ -39,7 +39,6 @@ describe Board do
     context 'when every cell has a non-nil value' do
       it 'should return true' do
         Cell.any_instance.stub(:value).and_return(3)  
-
         board.full?.should == true
       end
     end
@@ -75,7 +74,7 @@ describe Board do
   describe "#fill_empty_cell" do
     before do
       Cell.any_instance.stub(:value).and_return(3)
-      board.cells[2].stub(:value).and_return(nil)
+      board.cells[2].stub(value: nil)
     end
 
     context 'there is an empty cell' do
@@ -86,28 +85,15 @@ describe Board do
     end
   end
 
-  describe '#valid?' do
-    it 'should return false if numbers are not valid'
-    it 'should return true if numbers are valid'
-  end
-
-  describe '#groups_valid?' do
-    it 'should return false if numbers are not valid'
-    it 'should return true if numbers are valid'
-  end
-
-  describe '#rows_valid?' do
-    it 'should return false if numbers are not valid'
-    it 'should return true if numbers are valid'
-  end
-
-  describe '#columns_valid?' do
-    it 'should return false if numbers are not valid'
-    it 'should return true if numbers are valid'
-  end
-
-  describe '#values' do
-    it 'returns all values on the board' 
+  describe '#values' do # TODO, WTF? include?
+    context 'when there are values on the board' do
+      before do
+        Cell.any_instance.stub(:value).exactly(16).times        
+      end
+      it 'returns all values on the board' do
+        board.values.should_not be_empty 
+      end
+    end
   end
 
   describe "#print" do 
@@ -128,4 +114,25 @@ describe Board do
       board.print
     end
   end
+
+  # describe '#valid?' do
+  #   context 'when row, column, and group are all valid' do
+  #   end
+
+  #   context 'when any of row, column, or group are invalid' do
+  #     before do
+  #       board.stub(:row_valid?).and_return(true)
+  #       board.stub(:column_valid?).and_return(false)
+  #       board.stub(:group_valid?).and_return(true)
+  #     end
+  #   end
+
+  #   # context 'the row is invalid'
+  #   # context 'the row is valid'
+  #   # context 'the column is invalid'
+  #   # context 'the column is valid'    
+  #   # context 'the group is invalid'
+  #   # context 'the group is valid'
+
+  # end
 end
