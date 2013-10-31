@@ -19,6 +19,14 @@ describe Board do
     end
   end
 
+  describe '#set_value' do
+    it 'set the value at given index' do
+      board.cells[3].stub(:value).and_return(4)
+      board.set_value(3,4)
+      board.cells[3].value.should == 4 
+    end  
+  end
+
   describe "#value_at" do
     context 'when cell value is nil' do
       it 'value should equal space' do
@@ -92,8 +100,7 @@ describe Board do
       end
 
       it 'returns all values on the board' do
-        board.values.should_not be_empty
-        board.values.should include(3) 
+        board.values.should == Array.new(16,3) 
       end
     end
 
@@ -103,8 +110,12 @@ describe Board do
       end
 
       it 'returns all values on the board' do
-        board.values.should be_empty
-        board.values.should_not include(3) 
+        board.values.should == [] 
+      end
+    end
+
+    context 'when there are some nil and some values on the board' do
+      before do
       end
     end
   end
@@ -130,88 +141,7 @@ describe Board do
 
   describe '#valid?' do
     context 'when rows, columns, and groups are all valid' do
-      before do
-        board.stub(:rows_valid?).and_return(true)
-        board.stub(:columns_valid?).and_return(true)
-        board.stub(:groups_valid?).and_return(true)
-      end
 
-      it 'valid should be true' do
-        board.should be_valid
-      end
     end
-
-    context 'when any rows, columns, or groups are invalid' do
-      before do
-        board.stub(:rows_valid?).and_return(true)
-        board.stub(:columns_valid?).and_return(false)
-        board.stub(:groups_valid?).and_return(true)
-      end
-
-      it 'valid should be false' do
-        board.should_not be_valid
-      end
-    end
-
-    context 'when rows, columns, and groups are all invalid' do
-      before do
-        board.stub(:rows_valid?).and_return(false)
-        board.stub(:columns_valid?).and_return(false)
-        board.stub(:groups_valid?).and_return(false)
-      end
-
-      it 'valid should be false' do
-        board.should_not be_valid
-      end
-    end    
-
-    # context 'rows is invalid'
-    # context 'columns is invalid'  
-    # context 'groups is invalid'  
   end
-
-  describe '#rows_valid?' do
-    before do
-      Cell.any_instance.stub(:value)
-      Cell.any_instance.stub(:row)
-    end
-
-    context 'when all rows are valid' do
-      before do
-
-      end
-
-      it 'row one is valid' do
-        row = nil
-        value = nil
-        board.cells[0..3].each do |cell|
-          row = cell.stub(:row).and_return(1)
-          value = cell.stub(:value).and_return(val)
-        end
-
-        
-
-        # contains one each of 1,2,3,4
-      end
-
-      it 'row two is valid' 
-        # contains one each of 1,2,3,4     
-      it 'row three is valid'   
-        # contains one each of 1,2,3,4    
-      it 'row four is valid'
-        # contains one each of 1,2,3,4  
-      it 'is valid'
-    end
-
-    # context 'when any rows are invalid' do
-    #   it '' do
-    #   end
-    # end
-  end
-
-  # describe '#columns_valid?' do
-  # end
-
-  # describe '#groups_valid?' do
-  # end
 end

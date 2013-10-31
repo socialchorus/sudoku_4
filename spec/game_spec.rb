@@ -34,11 +34,16 @@ describe Game do
   end
 
   describe '#auto_take_turn' do
+    let(:board) {
+      double('board', {
+        fill_empty_cell: nil,
+        print: nil,
+        valid?: false,
+        clear: nil,
+      })
+    }
+
     before do
-      board.stub(:fill_empty_cell)
-      board.stub(:print)
-      board.stub(:valid?)
-      board.stub(:clear)
       stdin.stub(:gets)
       stdout.stub(:puts)
     end
@@ -100,14 +105,19 @@ describe Game do
 end
 
   describe '#take_turn' do
+    let(:board) {
+      double('board', {
+        set_value: nil,
+        print: nil,
+        valid?: false,
+        clear: nil,
+      })
+    }
+
     let(:index) {0}
     let(:value) {4}
 
     before do
-      board.stub(:set_value)
-      board.stub(:print)
-      board.stub(:valid?)
-      board.stub(:clear)
       stdout.stub(:puts)
     end
 
@@ -157,9 +167,9 @@ end
   end
 
   describe '#values' do
-    it 'delegates to the board and returns values' do
-      board.should_receive(:values).and_return(an_instance_of(Array))
-      game.values # ?
+    it 'delegates to the board and returns an array with values' do
+      board.should_receive(:values).and_return([2,3,4,1])
+      game.values.should == [2,3,4,1]
     end
   end
 

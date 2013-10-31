@@ -9,19 +9,10 @@ class Board
   end
 
   def values
-    values_array = []
-    (0..15).each do |id|
-      found_cell_value = found_cell(id).value
-      if found_cell_value != nil
-        values_array << found_cell_value
-      end
-    end
-    values_array
+    cells.map {|cell| cell.value}.compact
   end
 
-  def valid?
-    rows_valid? && columns_valid? && groups_valid?
-  end
+  def set_value(index, value)
 
   def found_cell(id)
     cells.detect {|cell| cell.id == id}
