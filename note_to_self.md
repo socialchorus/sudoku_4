@@ -1,36 +1,25 @@
+at least 4 numbers should be visible at start of game
 
+board solutions:
+1,4,3,2, 
+2,3,4,1, 
+3,2,1,4, 
+4,1,2,3
 
-Given(/^I have started the game$/) do
-  @input = StringIO.new("")
-  @output = StringIO.new("")
-  Game.new(@input, @output).run 
-end
+2,4,3,1, 
+3,1,4,2, 
+4,2,1,3, 
+1,3,2,4
 
-# Then(/^I will see an empty board$/) do
-#   @output.should_not match /\d/ 
-#   @output.should match /\|/
-# end
+1,2,4,3, 
+4,3,2,1, 
+3,4,1,2, 
+2,1,3,4
 
-
-
-
-Steps for number replacement on template:
-# Read board
-
-# Gets matching patterns 
-        # "hello".gsub(/(?<foo>[aeiou])/, '{\k<foo>}')  #=> "h{e}ll{o}"
-    # puts template.gsub(/?<foo>[pattern_extractor]/, '\k<foo>value_att(pattern_extractor)')
-    # {|digit| do board.value_at(digit).to_s} 
-    # template.render ?? value_at ??
-# Extracts the number
-# Render / sticks it back in
-# Print
-
-
-
-
-
-
+1,4,3,2, 
+2,3,1,4, 
+3,2,4,1, 
+4,1,2,3
 
 ((\s_{3}\s_{3}\s){2}((\|(\s){3}\|(\s){3}\|){2}\s(\|_{3}\|_{3}\|){2}\s){2}){2} #This is the one we're using
 
@@ -56,6 +45,7 @@ Steps for number replacement on template:
 
 i + 1 % 4/n
 
+THE WINNER!!
  ___ ___  ___ ___
 |   |   ||   |   |
 |___|___||___|___|
@@ -80,9 +70,6 @@ i + 1 % 4/n
 
  ___ ___  ___ ___ |   |   ||   |   ||___|___||___|___||   |   ||   |   ||___|___||___|___|
  ___ ___  ___ ___ |   |   ||   |   ||___|___||___|___||   |   ||   |   ||___|___||___|___|
-
-
-
 
  ___ ___  ___ ___
 |   |   ||   |   |

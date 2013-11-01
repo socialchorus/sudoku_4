@@ -12,6 +12,14 @@ describe Cell do
       it "value is nil" do
         cell.value.should == nil
       end
+
+      it "row is calculated" do
+        cell.row.should == 1
+      end
+
+      it "column is calculated" do
+        cell.column.should == 2
+      end
     end
   end
 

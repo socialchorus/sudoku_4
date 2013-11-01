@@ -19,27 +19,35 @@ describe Board do
     end
   end
 
-  describe '#set_value' do
-    it 'set the value at given index' do
-      board.cells[3].stub(:value).and_return(4)
-      board.set_value(3,4)
-      board.cells[3].value.should == 4 
-    end  
-  end
-
   describe "#value_at" do
     context 'when cell value is nil' do
       it 'value should equal space' do
-        Cell.any_instance.stub(:value).and_return(nil)
+        board.cells[3].value = nil 
         board.value_at(3).should == " "
       end
     end
 
     context 'when cell value is a number' do
       it 'value should equal that number' do
-        Cell.any_instance.stub(:value).and_return(2)
+        board.cells[15].value = 2
         board.value_at(15).should == 2
       end
+    end
+  end
+
+  describe '#set_value' do
+    it 'set the value at given index' do
+      board.cells[3].value = nil 
+      board.set_value(3,4)
+      board.value_at(3).should == 4
+    end  
+  end
+
+  describe '#clear' do
+    it 'resets all the cell values to nil' do
+      board.cells[15].value = 4
+      board.clear
+      board.cells[15].value.should == nil
     end
   end
 
@@ -53,42 +61,39 @@ describe Board do
 
     context 'when any cell has a nil value' do
       it 'should be false' do
-        Cell.any_instance.stub(:value).and_return(3)
-        board.cells[15].stub(:value).and_return(nil)
+        board.set_value(0, 3)
+        board.set_value(1, nil)
         board.full?.should == false        
       end
     end
   end
   
   describe "#get_empty_cell" do
-    before do
-      Cell.any_instance.stub(:value).and_return(3)
-    end
-
     context 'there are no empty cells' do
       it "returns something falsy" do
+        Cell.any_instance.stub(:value).and_return(3)
         board.get_empty_cell.should be_false
       end
     end
 
     context "there is an empty cell" do
       it "returns that cell" do
-        board.cells[2].stub(:value).and_return(nil)
+        board.set_value(0,1)
+        board.set_value(1,2)
+        board.set_value(2,nil)
         board.get_empty_cell.should == board.cells[2]
       end
     end
   end
 
   describe "#fill_empty_cell" do
-    before do
-      Cell.any_instance.stub(:value).and_return(3)
-      board.cells[2].stub(:value).and_return(nil)
-    end
-
     context 'there is an empty cell' do
       it 'should generate a value for that cell' do
-        board.cells[2].stub(:generate_value).and_return(4)
-        board.fill_empty_cell.should == 4
+        board.set_value(0,1)
+        board.set_value(1,2)
+        board.set_value(2,nil)
+        board.fill_empty_cell
+        board.value_at(2).should_not be_nil
       end
     end
   end
@@ -115,7 +120,7 @@ describe Board do
     end
 
     context 'when there are some nil and some values on the board' do
-      before do
+      before do #TODO
       end
     end
   end
@@ -141,7 +146,23 @@ describe Board do
 
   describe '#valid?' do
     context 'when rows, columns, and groups are all valid' do
-
+      let(:valid_board) {
+        {
+          0 => 1, 1 => 4, 2 => 3, 3 => 2, 
+          4 => 2, 5 => 3, 6 => 4, 7 => 1, 
+          8 => 3, 9 => 2, 10 => 1, 11 => 4, 
+          12 => 4, 13 => 1, 14 => 2, 15 => 3
+        }
+      }
+      before do 
+        valid_board.each do |index, value|
+          board.set_value(index,value)
+        end
+      end
+        
+      it 'should be valid' do
+        board.should be_valid
+      end
     end
   end
 end
