@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Game do
+describe Game, 'functional' do
   let(:game) {Game.new(input, output)}
   let(:input) {StringIO.new("")}
   let(:output) {StringIO.new("")}
@@ -99,6 +99,99 @@ describe Game do
         game.values.should be_empty
       end
     end
+  end
+
+  describe '#valid?' do
+    context 'when rows, columns, and groups are all valid' do
+      let(:valid_board) {
+        {
+          0 => 1, 1 => 4, 2 => 3, 3 => 2, 
+          4 => 2, 5 => 3, 6 => 4, 7 => 1, 
+          8 => 3, 9 => 2, 10 => 1, 11 => 4, 
+          12 => 4, 13 => 1, 14 => 2, 15 => 3
+        }
+      }
+
+      before do 
+        valid_board.each do |index, value|
+          game.board.set_value(index,value)
+        end
+      end
+        
+      it 'should be valid' do
+        game.should be_valid
+      end      
+    end
+
+    context 'when one cell is invalid' do
+      let(:invalid_board) {
+        {
+          0 => 1, 1 => 4, 2 => 3, 3 => 2, 
+          4 => 2, 5 => 3, 6 => 4, 7 => 1, 
+          8 => 3, 9 => 2, 10 => 1, 11 => 4, 
+          12 => 4, 13 => 1, 14 => 2, 15 => 2
+        }
+      }
+
+      before do 
+        invalid_board.each do |index, value|
+          game.board.set_value(index,value)
+        end
+      end
+        
+      it 'should be invalid' do
+        game.should_not be_valid
+      end      
+    end
+
+    context 'when two cells are nil, but board is valid' do
+      let(:incomplete_board) {
+        {
+          0 => 1, 1 => nil, 2 => 3, 3 => 2, 
+          4 => 2, 5 => 3, 6 => nil, 7 => 1, 
+          8 => 3, 9 => 2, 10 => 1, 11 => 4, 
+          12 => 4, 13 => 1, 14 => 2, 15 => 3
+        }
+      }
+
+      before do 
+        incomplete_board.each do |index, value|
+          game.board.set_value(index,value)
+        end
+      end
+        
+      it 'should be valid' do
+        game.should be_valid
+      end      
+    end
+
+    context 'when a cell has an illegal value' do
+      let(:illegal_board) {
+        {
+          0 => 1, 1 => nil, 2 => 3, 3 => 2, 
+          4 => 2, 5 => 3, 6 => 333, 7 => 1, 
+          8 => 3, 9 => 2, 10 => 1, 11 => 4, 
+          12 => 4, 13 => 1, 14 => 2, 15 => 3
+        }
+      }
+
+      before do 
+        illegal_board.each do |index, value|
+          game.board.set_value(index,value)
+        end
+      end
+        
+      it 'should be invalid' do
+        game.should_not be_valid
+      end      
+    end
+
+    context 'when boards cell values are all nil' do
+      # TODO ensure we are actually establishing a nil board
+      it 'should be valid' do
+        game.should be_valid
+      end      
+    end    
   end
 
   describe 'all turns taken' do

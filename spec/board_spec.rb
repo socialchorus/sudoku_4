@@ -51,6 +51,41 @@ describe Board do
     end
   end
 
+  # describe '#valid?' do
+  #   let(:collection) {double("collection")}
+  #   let(:validator) {
+  #     double("validator", {
+  #       valid?: true
+  #     })
+  #   }
+
+  #   context 'the board is valid' do
+  #     it 'is valid' do
+  #       board.should be_valid
+  #     end
+  #   end
+
+    # context 'the board has one invalid cell' do
+    #   before do
+    #     Validator.stub(:new).with(collection)
+    #   end
+
+    #   it 'is false' do
+    #     counter = 0
+    #     validator.stub(:valid?) do
+    #       counter += 1
+    #       if counter <= 11
+    #         true
+    #       else
+    #         false
+    #       end
+    #     end
+
+    #     board.should_not be_valid
+    #   end
+    # end
+  # end
+
   describe "#full?" do 
     context 'when every cell has a non-nil value' do
       it 'should return true' do
@@ -120,7 +155,15 @@ describe Board do
     end
 
     context 'when there are some nil and some values on the board' do
-      before do #TODO
+      before do
+        board.set_value(0,1)
+        board.set_value(1,2)
+        board.set_value(2,nil)
+        board.set_value(3,4)        
+      end
+
+      it 'board values should contain only numbers' do
+        board.values.should == [1,2,4]
       end
     end
   end
@@ -141,28 +184,6 @@ describe Board do
     it 'should send print to the printer instance' do 
       printer.should_receive(:print)
       board.print
-    end
-  end
-
-  describe '#valid?' do
-    context 'when rows, columns, and groups are all valid' do
-      let(:valid_board) {
-        {
-          0 => 1, 1 => 4, 2 => 3, 3 => 2, 
-          4 => 2, 5 => 3, 6 => 4, 7 => 1, 
-          8 => 3, 9 => 2, 10 => 1, 11 => 4, 
-          12 => 4, 13 => 1, 14 => 2, 15 => 3
-        }
-      }
-      before do 
-        valid_board.each do |index, value|
-          board.set_value(index,value)
-        end
-      end
-        
-      it 'should be valid' do
-        board.should be_valid
-      end
     end
   end
 end
