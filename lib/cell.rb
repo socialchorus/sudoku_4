@@ -1,32 +1,35 @@
 class Cell
-  attr_accessor :id, :value
-  attr_reader :row, :column, :group
+  attr_accessor :value
+  attr_reader :id, :board_size, :row, :column, :group
 
   def initialize(id, board_size)
     @id = id
-    @value = nil
-    @row = ((id/board_size) + 1)
-    @column = ((id%board_size) + 1)
+    @board_size = board_size
+    @row = calculate_row
+    @column = calculate_column
     @group = calculate_group
   end
 
   def generate_value
-    self.value = rand(1..4)
+    self.value = rand(1..board_size)
   end
 
   def empty?
     value.nil?
   end
 
-  def calculate_group # TODO develop algorithm
-    if [0,1,4,5].include?(id)
-      1
-    elsif [2,3,6,7].include?(id)
-      2
-    elsif [8,9,12,13].include?(id)
-      3
-    elsif [10,11,14,15].include?(id)
-      4
-    end
+  def calculate_row
+    (id / board_size) + 1
+  end
+
+  def calculate_column
+    (id % board_size) + 1
+  end
+
+  def calculate_group 
+    group_dimension = Math.sqrt(board_size).to_i
+    group_row = (row - 1) / group_dimension
+    group_column = (column - 1) / group_dimension
+    ((group_row * group_dimension) + group_column) + 1
   end
 end

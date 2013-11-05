@@ -19,12 +19,15 @@ describe Game, 'functional' do
     end 
   end
 
+# TODO write tests for generating valid board
+# row-by-row
+
   describe 'taking the first turn' do
     before do
       game.auto_take_turn
     end
 
-    it 'a value is entered into an empty cell' do
+    it 'a value is entered into an empty cell' do 
       read_output.scan(/\d+/).count.should == 1 
     end
 
@@ -38,7 +41,6 @@ describe Game, 'functional' do
   end
 
   describe 'other turns' do
-
     before do
       game.auto_take_turn
     end
@@ -49,7 +51,7 @@ describe Game, 'functional' do
         game.auto_take_turn
       end
 
-      it 'a value is entered into an empty cell' do
+      it 'a value is entered into an empty cell' do 
         read_output.scan(/\d+/).count.should == 2
       end
 
@@ -187,16 +189,16 @@ describe Game, 'functional' do
     end
 
     context 'when boards cell values are all nil' do
-      # TODO ensure we are actually establishing a nil board
       it 'should be valid' do
         game.should be_valid
       end      
     end    
   end
 
-  describe 'all turns taken' do
+  describe 'all turns taken' do # TODO STUCK
     let(:last_board) {split_boards.last}
     let(:last_board_values) {last_board.scan(/\d+/)}
+
     before do
       game.run
     end

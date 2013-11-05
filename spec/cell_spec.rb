@@ -32,12 +32,8 @@ describe Cell do
 
       describe 'column is calculated' do
         it "column is calculated for 1st cell" do
+          cell = Cell.new(4, board_size)
           cell.column.should == 1
-        end
-
-        it "column is calculated for the 2nd cell" do
-          cell = Cell.new(1, board_size)
-          cell.column.should == 2
         end
 
         it "column is calculated for the 12th cell" do
@@ -70,7 +66,7 @@ describe Cell do
     end
   end
 
-  describe "#generate_value" do
+  describe "#generate_value" do # TODO completely rewrite this to accomodate row-by-row completion
     it 'assigns the instance of cell a value between 1 and 4' do
       cell.generate_value  
       cell.value.should be_instance_of(Fixnum)

@@ -51,40 +51,34 @@ describe Board do
     end
   end
 
-  # describe '#valid?' do
-  #   let(:collection) {double("collection")}
-  #   let(:validator) {
-  #     double("validator", {
-  #       valid?: true
-  #     })
-  #   }
+  describe '#valid?' do
+    let(:validator) {
+      double("validator", {
+        valid?: true
+      })
+    }
 
-  #   context 'the board is valid' do
-  #     it 'is valid' do
-  #       board.should be_valid
-  #     end
-  #   end
+    before do
+      Validator.stub(:new).and_return(validator)
+    end
 
-    # context 'the board has one invalid cell' do
-    #   before do
-    #     Validator.stub(:new).with(collection)
-    #   end
+    context 'the board is valid' do
+      it 'is valid' do
+        board.should be_valid
+      end
+    end
 
-    #   it 'is false' do
-    #     counter = 0
-    #     validator.stub(:valid?) do
-    #       counter += 1
-    #       if counter <= 11
-    #         true
-    #       else
-    #         false
-    #       end
-    #     end
-
-    #     board.should_not be_valid
-    #   end
-    # end
-  # end
+    context 'the board has one invalid cell' do
+      it 'is false' do
+        counter = 0
+        validator.stub(:valid?) do
+          counter += 1
+          counter <= 11
+        end
+        board.should_not be_valid
+      end
+    end
+  end
 
   describe "#full?" do 
     context 'when every cell has a non-nil value' do

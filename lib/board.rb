@@ -6,7 +6,7 @@ class Board
   def initialize(stdin, stdout)
     @stdin = stdin
     @stdout = stdout
-    @cells = (0..15).map {|id| Cell.new(id, SIZE)}
+    @cells = (0..15).map { |id| Cell.new(id, SIZE) }
   end
 
   def values
@@ -24,7 +24,7 @@ class Board
   def valid?
     (1..SIZE).all? do |num|
       [:row, :column, :group].all? do |collection_type|
-        Validator.new(get_values_for(collection_type, num)).valid? 
+        Validator.new(get_values_for(collection_type, num), SIZE).valid? 
       end
     end
   end
