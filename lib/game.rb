@@ -19,7 +19,7 @@ class Game
 
   def run
     printroduction
-    fill_rows
+    generate_valid_board
     stdout.puts "The board is complete!"
   end
 
@@ -28,7 +28,7 @@ class Game
   end
 
   def prompt_for_input
-    stdout.puts "\n\n Press enter to fill the next cell"
+    stdout.puts "\n\n Press enter to fill the next row"
     stdin.gets
   end
  
@@ -39,7 +39,7 @@ class Game
     handle_invalid_board
   end
 
-  def fill_rows
+  def generate_valid_board #TODO change tests to this method
     while !board.full?
       auto_fill_row
       puts number_of_turns.to_s

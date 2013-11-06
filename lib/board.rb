@@ -9,8 +9,8 @@ class Board
     @cells = (0..15).map { |id| Cell.new(id, SIZE) }
   end
 
-  def full? 
-    !get_empty_cell
+  def full? #TODO look at enumerables
+    !cells.detect { |cell| cell.empty? }
   end
 
   def valid?
@@ -38,16 +38,6 @@ class Board
     found_cell(index).value = value
   end
 
-  def clear_row
-    get_collection(:row, last_filled_row || 1).each do |cell|
-      cell.value = nil
-    end
-  end
-
-  def clear # DELETE?
-    cells.each { |cell| cell.value = nil }
-  end
-
   def fill_empty_row #TODO: CIWK, code ugly
     row_values = generate_row_values
     get_empty_row.each do |cell| 
@@ -55,9 +45,7 @@ class Board
     end
   end
 
-  def fill_empty_cell # DELETE?
-    get_empty_cell.generate_value
-  end
+  # -----------------------------------------------------
 
   def get_values_for(collection_type, num)
     collection = get_collection(collection_type, num)
@@ -72,12 +60,6 @@ class Board
     cells.detect { |cell| cell.id == id }
   end
 
-  def last_filled_row
-    return nil if get_filled_cells.empty?
-    filled_cells_ids = get_filled_cells.map { |cell| cell.id }
-    cells[filled_cells_ids.max].row
-  end
-
   def get_filled_cells
     cells.select { |cell| !cell.empty? }
   end
@@ -87,11 +69,19 @@ class Board
     cells.select { |cell| cell.row == empty_row_number }
   end
 
+  def clear_row
+    get_collection(:row, last_filled_row || 1).each do |cell|
+      cell.value = nil
+    end
+  end
+
   def generate_row_values
     (1..SIZE).to_a.shuffle
   end
 
-  def get_empty_cell # DELETE if removed from full?
-    cells.detect { |cell| cell.empty? }
+  def last_filled_row
+    return nil if get_filled_cells.empty?
+    filled_cells_ids = get_filled_cells.map { |cell| cell.id }
+    cells[filled_cells_ids.max].row
   end
 end

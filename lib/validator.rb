@@ -11,7 +11,7 @@ class Validator
   end
 
   def legal?
-    collection.size == 4 &&
+    collection.size == board_size &&
     collection.compact.all?{ |element| 
       element.is_a?(Fixnum) &&
       element >= 1 && 

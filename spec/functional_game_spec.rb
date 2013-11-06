@@ -80,10 +80,7 @@ describe Game, 'functional' do
       end
     end
     
-    context 'the board values are invalid' do
-      let(:second_row_values) {game.values}
-      let(:second_row_indexes) {[4,5,6,7]}
-      let(:second_row) {Hash[second_row_indexes.zip second_row_values]}
+    context 'the board values are invalid' do #TODO, stub it out
 
       before do 
         output.string = ""

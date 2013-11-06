@@ -162,14 +162,6 @@ describe Board do
     end
   end
 
-  describe '#clear' do #TODO: CIWK, delete?
-    it 'resets all the cell values to nil' do
-      board.cells[15].value = 4
-      board.clear
-      board.cells[15].value.should == nil
-    end
-  end
-
   describe '#fill_empty_row' do
     context 'there is an empty row' do
       let(:incomplete_board) {
@@ -194,34 +186,4 @@ describe Board do
       end
     end
   end
-
-  describe "#fill_empty_cell" do
-    context 'there is an empty cell' do
-      it 'should generate a value for that cell' do
-        board.set_value(0,1)
-        board.set_value(1,2)
-        board.set_value(2,nil)
-        board.fill_empty_cell
-        board.value_at(2).should_not == " "
-      end
-    end
-  end
-
-  describe "#get_empty_cell" do #TODO: CIWK, is this private?
-    context 'there are no empty cells' do
-      it "returns something falsy" do
-        Cell.any_instance.stub(:value).and_return(3)
-        board.get_empty_cell.should be_false
-      end
-    end
-
-    context "there is an empty cell" do
-      it "returns that cell" do
-        board.set_value(0,1)
-        board.set_value(1,2)
-        board.set_value(2,nil)
-        board.get_empty_cell.should == board.cells[2]
-      end
-    end
-  end  
 end

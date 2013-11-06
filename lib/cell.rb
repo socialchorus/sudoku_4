@@ -10,10 +10,6 @@ class Cell
     @group = calculate_group
   end
 
-  def generate_value # DELETE?
-    self.value = rand(1..board_size)
-  end
-
   def empty?
     value.nil?
   end
