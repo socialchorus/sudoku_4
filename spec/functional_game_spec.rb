@@ -79,7 +79,7 @@ describe Game, 'functional' do
         game.values.should_not be_empty
       end
     end
-    
+    #
     context 'the board values are invalid' do #TODO, stub it out
 
       before do 
