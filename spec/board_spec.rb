@@ -43,7 +43,17 @@ describe Board do
     end  
   end
 
-  describe '#clear' do
+  describe '#clear_row' do
+    it 'resets all the cell values in a specified row' do
+      board.cells[0..7].each { |cell| cell.value = 2 }
+      board.clear_row
+      board.cells[3].value.should == 2 
+      board.cells[4].value.should == nil 
+      board.cells[7].value.should == nil 
+    end
+  end
+
+  describe '#clear' do #TODO: CIWK, delete?
     it 'resets all the cell values to nil' do
       board.cells[15].value = 4
       board.clear
@@ -115,6 +125,31 @@ describe Board do
     end
   end
 
+  describe '#fill_empty_row' do
+    context 'there is an empty row' do
+      let(:incomplete_board) {
+        {
+          0 => 1, 1 => 4, 2 => 3, 3 => 2, 
+          4 => nil, 5 => nil, 6 => nil, 7 => nil, 
+          8 => nil, 9 => nil, 10 => nil, 11 => nil, 
+          12 => nil, 13 => nil, 14 => nil, 15 => nil
+        }
+      }
+
+      before do 
+        incomplete_board.each do |index, value|
+          board.set_value(index, value)
+        end
+      end
+
+      it 'should generate values for that row' do
+        board.fill_empty_row
+        board.value_at(4).should_not == " "
+        board.value_at(7).should_not == " "
+      end
+    end
+  end
+
   describe "#fill_empty_cell" do
     context 'there is an empty cell' do
       it 'should generate a value for that cell' do
@@ -122,7 +157,7 @@ describe Board do
         board.set_value(1,2)
         board.set_value(2,nil)
         board.fill_empty_cell
-        board.value_at(2).should_not be_nil
+        board.value_at(2).should_not == " "
       end
     end
   end

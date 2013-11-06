@@ -17,6 +17,12 @@ class Board
     found_cell(index).value = value
   end
 
+  def clear_row
+    get_collection(:row, last_filled_row).each do |cell|
+      cell.value = nil
+    end
+  end
+
   def clear
     cells.each { |cell| cell.value = nil }
   end
@@ -42,12 +48,25 @@ class Board
     cells.detect { |cell| cell.id == id }
   end
 
+  def last_filled_row
+    filled_cells_ids = get_filled_cells.map { |cell| cell.id }
+    cells[filled_cells_ids.max].row
+  end
+
+  def get_filled_cells
+    cells.select { |cell| !cell.empty? }
+  end
+
   def value_at(id)
     found_cell(id).value || " "
   end
 
   def full? 
     !get_empty_cell
+  end
+
+  def fill_empty_row
+    get_empty_row.map { generate_row } #TODO! map the result of generate row to the empty row 
   end
 
   def get_empty_cell
