@@ -6,5 +6,5 @@ end
 
 def split_boards(io=output)
   boards = read_output(io)
-  boards.split "Press enter to fill the next cell\n"
+  boards.split "Press enter to fill the next row\n"
 end

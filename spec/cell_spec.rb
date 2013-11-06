@@ -66,14 +66,6 @@ describe Cell do
     end
   end
 
-  describe "#generate_value" do # TODO completely rewrite this to accomodate row-by-row completion
-    it 'assigns the instance of cell a value between 1 and 4' do
-      cell.generate_value  
-      cell.value.should be_instance_of(Fixnum)
-      cell.value.should <= 4 && cell.value.should >= 1
-    end
-  end
-
   describe '#empty?' do
     context 'the cell has a nil value' do
       it 'should return true' do

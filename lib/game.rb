@@ -39,7 +39,7 @@ class Game
     handle_invalid_board
   end
 
-  def generate_valid_board #TODO change tests to this method
+  def generate_valid_board 
     while !board.full?
       auto_fill_row
       puts number_of_turns.to_s

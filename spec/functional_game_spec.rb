@@ -59,16 +59,17 @@ describe Game, 'functional' do
 
     context 'the board values are valid' do
       let(:second_row_values) {game.values.reverse}
-      let(:second_row_indexes) {[4,5,6,7]}
-      let(:second_row) {Hash[second_row_indexes.zip second_row_values]}
 
-      before do 
+      before do
         output.string = ""
-        second_row.each do |index, value|
-          game.set_value(index, value)
+        game.board.stub(:fill_empty_row) do
+          index = 4
+          second_row_values.each do |value|
+            game.set_value(index, value)
+            index += 1
+          end
         end
-        game.print
-        game.handle_invalid_board #TODO weird to completely stage this?
+        game.auto_fill_row
       end
 
       it 'doesnt print an error message' do
@@ -79,16 +80,20 @@ describe Game, 'functional' do
         game.values.should_not be_empty
       end
     end
-    #
-    context 'the board values are invalid' do #TODO, stub it out
+    
+    context 'the board values are invalid' do
+      let(:second_row_values) {game.values}
 
-      before do 
+      before do
         output.string = ""
-        second_row.each do |index, value|
-          game.set_value(index, value)
+        game.board.stub(:fill_empty_row) do
+          index = 4
+          second_row_values.each do |value|
+            game.set_value(index, value)
+            index += 1
+          end
         end
-        game.print
-        game.handle_invalid_board #TODO weird to completely stage this?
+        game.auto_fill_row
       end
 
       it 'prints an error message' do
