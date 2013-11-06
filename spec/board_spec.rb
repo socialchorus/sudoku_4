@@ -5,7 +5,7 @@ describe Board do
   let(:stdin) {double("stdin")}
   let(:stdout) {double("stdout")}
 
-  describe "#initialize" do
+  describe '#initialize' do
     context 'when we initialize a board' do
       it 'cells collection should have a length of 16' do
         board.cells.count.should == 16
@@ -19,45 +19,20 @@ describe Board do
     end
   end
 
-  describe "#value_at" do
-    context 'when cell value is nil' do
-      it 'value should equal space' do
-        board.cells[3].value = nil 
-        board.value_at(3).should == " "
+  describe "#full?" do 
+    context 'when every cell has a non-nil value' do
+      it 'should return true' do
+        Cell.any_instance.stub(:value).and_return(3)  
+        board.full?.should == true
       end
     end
 
-    context 'when cell value is a number' do
-      it 'value should equal that number' do
-        board.cells[15].value = 2
-        board.value_at(15).should == 2
+    context 'when any cell has a nil value' do
+      it 'should be false' do
+        board.set_value(0, 3)
+        board.set_value(1, nil)
+        board.full?.should == false        
       end
-    end
-  end
-
-  describe '#set_value' do
-    it 'set the value at given index' do
-      board.cells[3].value = nil 
-      board.set_value(3,4)
-      board.value_at(3).should == 4
-    end  
-  end
-
-  describe '#clear_row' do
-    it 'resets all the cell values in a specified row' do
-      board.cells[0..7].each { |cell| cell.value = 2 }
-      board.clear_row
-      board.cells[3].value.should == 2 
-      board.cells[4].value.should == nil 
-      board.cells[7].value.should == nil 
-    end
-  end
-
-  describe '#clear' do #TODO: CIWK, delete?
-    it 'resets all the cell values to nil' do
-      board.cells[15].value = 4
-      board.clear
-      board.cells[15].value.should == nil
     end
   end
 
@@ -90,38 +65,108 @@ describe Board do
     end
   end
 
-  describe "#full?" do 
-    context 'when every cell has a non-nil value' do
-      it 'should return true' do
-        Cell.any_instance.stub(:value).and_return(3)  
-        board.full?.should == true
+  describe "#print" do 
+    let(:printer) {double("printer")}
+    
+    before do
+      Printer.stub(:new).and_return(printer)
+      printer.stub(:print)
+    end
+
+    it 'makes a new printer' do
+      Printer.should_receive(:new).with(board, stdout).and_return(printer)
+      board.print
+    end
+
+    it 'should send print to the printer instance' do 
+      printer.should_receive(:print)
+      board.print
+    end
+  end
+
+  describe "#value_at" do
+    context 'when cell value is nil' do
+      it 'value should equal space' do
+        board.cells[3].value = nil 
+        board.value_at(3).should == " "
       end
     end
 
-    context 'when any cell has a nil value' do
-      it 'should be false' do
-        board.set_value(0, 3)
-        board.set_value(1, nil)
-        board.full?.should == false        
+    context 'when cell value is a number' do
+      it 'value should equal that number' do
+        board.cells[15].value = 2
+        board.value_at(15).should == 2
       end
     end
   end
-  
-  describe "#get_empty_cell" do
-    context 'there are no empty cells' do
-      it "returns something falsy" do
+
+  describe '#values' do 
+    context 'when there are values on the board' do
+      before do
         Cell.any_instance.stub(:value).and_return(3)
-        board.get_empty_cell.should be_false
+      end
+
+      it 'returns all values on the board' do
+        board.values.should == Array.new(16,3) 
       end
     end
 
-    context "there is an empty cell" do
-      it "returns that cell" do
+    context 'when there arent values on the board' do
+      before do
+        Cell.any_instance.stub(:value).and_return(nil)
+      end
+
+      it 'returns all values on the board' do
+        board.values.should == [] 
+      end
+    end
+
+    context 'when there are some nil and some values on the board' do
+      before do
         board.set_value(0,1)
         board.set_value(1,2)
         board.set_value(2,nil)
-        board.get_empty_cell.should == board.cells[2]
+        board.set_value(3,4)        
       end
+
+      it 'board values should contain only numbers' do
+        board.values.should == [1,2,4]
+      end
+    end
+  end
+
+  describe '#set_value' do
+    it 'set the value at given index' do
+      board.cells[3].value = nil 
+      board.set_value(3,4)
+      board.value_at(3).should == 4
+    end  
+  end
+
+  describe '#clear_row' do
+    context 'when the board is empty' do
+      it 'does not clear any rows' do
+        board.clear_row
+        board.values.should be_empty
+      end
+    end
+
+    context 'when the board is half full' do
+      it 'resets all the cell values in a specified row' do
+        board.cells[0..7].each { |cell| cell.value = 2 }
+        board.clear_row
+        board.cells[3].value.should == 2 
+        board.cells[4].value.should == nil 
+        board.cells[7].value.should == nil 
+      end
+    end
+  end
+
+  describe '#clear' do #TODO: CIWK, delete?
+    it 'resets all the cell values to nil' do
+      board.cells[15].value = 4
+      board.clear
+      board.cells[15].value.should == nil
     end
   end
 
@@ -162,57 +207,21 @@ describe Board do
     end
   end
 
-  describe '#values' do 
-    context 'when there are values on the board' do
-      before do
+  describe "#get_empty_cell" do #TODO: CIWK, is this private?
+    context 'there are no empty cells' do
+      it "returns something falsy" do
         Cell.any_instance.stub(:value).and_return(3)
-      end
-
-      it 'returns all values on the board' do
-        board.values.should == Array.new(16,3) 
+        board.get_empty_cell.should be_false
       end
     end
 
-    context 'when there arent values on the board' do
-      before do
-        Cell.any_instance.stub(:value).and_return(nil)
-      end
-
-      it 'returns all values on the board' do
-        board.values.should == [] 
-      end
-    end
-
-    context 'when there are some nil and some values on the board' do
-      before do
+    context "there is an empty cell" do
+      it "returns that cell" do
         board.set_value(0,1)
         board.set_value(1,2)
         board.set_value(2,nil)
-        board.set_value(3,4)        
-      end
-
-      it 'board values should contain only numbers' do
-        board.values.should == [1,2,4]
+        board.get_empty_cell.should == board.cells[2]
       end
     end
-  end
-
-  describe "#print" do 
-    let(:printer) {double("printer")}
-    
-    before do
-      Printer.stub(:new).and_return(printer)
-      printer.stub(:print)
-    end
-
-    it 'makes a new printer' do
-      Printer.should_receive(:new).with(board, stdout).and_return(printer)
-      board.print
-    end
-
-    it 'should send print to the printer instance' do 
-      printer.should_receive(:print)
-      board.print
-    end
-  end
+  end  
 end

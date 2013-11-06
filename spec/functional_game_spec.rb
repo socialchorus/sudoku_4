@@ -68,6 +68,7 @@ describe Game, 'functional' do
           game.set_value(index, value)
         end
         game.print
+        game.handle_invalid_board #TODO weird to completely stage this?
       end
 
       it 'doesnt print an error message' do
@@ -90,6 +91,7 @@ describe Game, 'functional' do
           game.set_value(index, value)
         end
         game.print
+        game.handle_invalid_board #TODO weird to completely stage this?
       end
 
       it 'prints an error message' do
@@ -199,7 +201,6 @@ describe Game, 'functional' do
     let(:last_board_values) {last_board.scan(/\d+/)}
 
     before do
-      pending "This runs forever!!!"
       game.run
     end
 

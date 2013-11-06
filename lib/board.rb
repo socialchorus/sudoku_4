@@ -9,6 +9,27 @@ class Board
     @cells = (0..15).map { |id| Cell.new(id, SIZE) }
   end
 
+  def full? 
+    !get_empty_cell
+  end
+
+  def valid?
+    (1..SIZE).all? do |num|
+      [:row, :column, :group].all? do |collection_type|
+        Validator.new(get_values_for(collection_type, num), SIZE).valid? 
+      end
+    end
+  end
+
+  def print
+    printer = Printer.new(self, stdout)
+    printer.print
+  end
+
+  def value_at(id)
+    found_cell(id).value || " "
+  end
+
   def values
     cells.map {|cell| cell.value}.compact
   end
@@ -18,21 +39,24 @@ class Board
   end
 
   def clear_row
-    get_collection(:row, last_filled_row).each do |cell|
+    get_collection(:row, last_filled_row || 1).each do |cell|
       cell.value = nil
     end
   end
 
-  def clear
+  def clear # DELETE?
     cells.each { |cell| cell.value = nil }
   end
 
-  def valid?
-    (1..SIZE).all? do |num|
-      [:row, :column, :group].all? do |collection_type|
-        Validator.new(get_values_for(collection_type, num), SIZE).valid? 
-      end
+  def fill_empty_row #TODO: CIWK, code ugly
+    row_values = generate_row_values
+    get_empty_row.each do |cell| 
+      cell.value = row_values.pop #could also be shift
     end
+  end
+
+  def fill_empty_cell # DELETE?
+    get_empty_cell.generate_value
   end
 
   def get_values_for(collection_type, num)
@@ -49,6 +73,7 @@ class Board
   end
 
   def last_filled_row
+    return nil if get_filled_cells.empty?
     filled_cells_ids = get_filled_cells.map { |cell| cell.id }
     cells[filled_cells_ids.max].row
   end
@@ -57,28 +82,16 @@ class Board
     cells.select { |cell| !cell.empty? }
   end
 
-  def value_at(id)
-    found_cell(id).value || " "
+  def get_empty_row #TODO rename last_filled_row?
+    empty_row_number = (last_filled_row || 0) + 1
+    cells.select { |cell| cell.row == empty_row_number }
   end
 
-  def full? 
-    !get_empty_cell
+  def generate_row_values
+    (1..SIZE).to_a.shuffle
   end
 
-  def fill_empty_row
-    get_empty_row.map { generate_row } #TODO! map the result of generate row to the empty row 
-  end
-
-  def get_empty_cell
+  def get_empty_cell # DELETE if removed from full?
     cells.detect { |cell| cell.empty? }
-  end
-
-  def fill_empty_cell
-    get_empty_cell.generate_value
-  end
-
-  def print
-    printer = Printer.new(self, stdout)
-    printer.print
   end
 end
