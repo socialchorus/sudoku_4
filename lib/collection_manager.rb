@@ -1,9 +1,17 @@
-class Validator
+class CollectionManager #TODO ???!?!?!?!
   attr_accessor :collection, :board_size
 
   def initialize(collection, board_size)
     @collection = collection
     @board_size = board_size
+  end
+
+  def clear
+    collection.each { |item| item.value = nil }
+  end
+
+  def values
+    collection.map { |item| item.value }
   end
 
   def valid?

@@ -1,4 +1,4 @@
-class Board
+class Board #TODO what are we moving?!?!
   SIZE = 4
   attr_accessor :cells
   attr_reader :stdin, :stdout
@@ -16,7 +16,7 @@ class Board
   def valid?
     (1..SIZE).all? do |num|
       [:row, :column, :group].all? do |collection_type|
-        Validator.new(get_values_for(collection_type, num), SIZE).valid? 
+        CollectionManager.new(get_values_for(collection_type, num), SIZE).valid? 
       end
     end
   end
