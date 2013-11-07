@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe Game, 'functional' do
   let(:game) {Game.new(input, output)}
-  let(:input) {StringIO.new("")}
-  let(:output) {StringIO.new("")}
+  let(:input) {$stdin}
+  let(:output) {$stdout}
 
   describe 'user starts the game' do
     before do
