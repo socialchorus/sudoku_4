@@ -11,7 +11,7 @@ Then(/^I will eventually see a valid board$/) do
   last_board_values.count.should == 16
   output_numbers = last_board_values.map do |value|
     value.to_i
-  end 
+  end
   @game.valid?.should == true
   @game.values == output_numbers
 end

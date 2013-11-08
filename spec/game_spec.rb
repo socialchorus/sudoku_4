@@ -17,7 +17,7 @@ describe Game do
         game.board.should == board
       end
     end
-  end  
+  end
 
   describe '#valid?' do
     it 'delegates to the board' do
@@ -68,7 +68,7 @@ describe Game do
   end
 
   describe '#printroduction' do
-    it 'prints the empty board' do 
+    it 'prints the empty board' do
       board.should_receive(:print)
       game.printroduction
     end
@@ -89,12 +89,12 @@ describe Game do
       stdout.stub(:puts)
     end
 
-    it 'prompts for input' do 
+    it 'prompts for input' do
       stdout.should_receive(:puts).with(an_instance_of(String))
       game.auto_fill_row
     end
 
-    it 'waits for input' do 
+    it 'waits for input' do
       stdin.should_receive(:gets)
       game.auto_fill_row
     end

@@ -1,6 +1,6 @@
 class Game
   attr_accessor :number_of_turns
-  attr_reader :stdin, :stdout, :board 
+  attr_reader :stdin, :stdout, :board
 
   def initialize(stdin, stdout)
     @stdin = stdin
@@ -31,7 +31,7 @@ class Game
     stdout.puts "\n\n Press enter to fill the next row"
     stdin.gets
   end
- 
+
   def auto_fill_row
     prompt_for_input
     board.fill_empty_row
@@ -39,7 +39,7 @@ class Game
     handle_invalid_board
   end
 
-  def generate_valid_board 
+  def generate_valid_board
     while !board.full?
       auto_fill_row
       puts number_of_turns.to_s
@@ -57,7 +57,6 @@ class Game
 
   def handle_invalid_board
     return if valid?
-    #puts values
     stdout.puts "The board is invalid!"
     board.clear_row
   end

@@ -19,13 +19,17 @@ describe Game, 'functional' do
     end
   end
 
-  describe 'generating the first row' do 
+  describe 'generating the first row' do
     before do
       game.auto_fill_row
     end
 
-    it 'values are entered into the top empty row' do 
+    it 'values are entered into the top empty row' do
       read_output.scan(/\d+/).count.should == 4
+    end
+
+    it 'is a valid row with all unique values' do
+      read_output.scan(/\d+/).uniq.count == 4
     end
 
     it 'prints the board' do
@@ -41,14 +45,14 @@ describe Game, 'functional' do
     before do
       game.auto_fill_row
     end
-    
+
     context 'whether or not board is valid' do
       before do
         output.string = ""
         game.auto_fill_row
       end
 
-      it 'values are entered into an empty row' do 
+      it 'values are entered into an empty row' do
         read_output.scan(/\d+/).count.should == 8
       end
 
@@ -80,7 +84,7 @@ describe Game, 'functional' do
         game.values.should_not be_empty
       end
     end
-    
+
     context 'the board values are invalid' do
       let(:second_row_values) {game.values}
 
@@ -110,95 +114,95 @@ describe Game, 'functional' do
     context 'when rows, columns, and groups are all valid' do
       let(:valid_board) {
         {
-          0 => 1, 1 => 4, 2 => 3, 3 => 2, 
-          4 => 2, 5 => 3, 6 => 4, 7 => 1, 
-          8 => 3, 9 => 2, 10 => 1, 11 => 4, 
+          0 => 1, 1 => 4, 2 => 3, 3 => 2,
+          4 => 2, 5 => 3, 6 => 4, 7 => 1,
+          8 => 3, 9 => 2, 10 => 1, 11 => 4,
           12 => 4, 13 => 1, 14 => 2, 15 => 3
         }
       }
 
-      before do 
+      before do
         valid_board.each do |index, value|
           game.board.set_value(index,value)
         end
       end
-        
+
       it 'should be valid' do
         game.should be_valid
-      end      
+      end
     end
 
     context 'when one cell is invalid' do
       let(:invalid_board) {
         {
-          0 => 1, 1 => 4, 2 => 3, 3 => 2, 
-          4 => 2, 5 => 3, 6 => 4, 7 => 1, 
-          8 => 3, 9 => 2, 10 => 1, 11 => 4, 
+          0 => 1, 1 => 4, 2 => 3, 3 => 2,
+          4 => 2, 5 => 3, 6 => 4, 7 => 1,
+          8 => 3, 9 => 2, 10 => 1, 11 => 4,
           12 => 4, 13 => 1, 14 => 2, 15 => 2
         }
       }
 
-      before do 
+      before do
         invalid_board.each do |index, value|
           game.board.set_value(index,value)
         end
       end
-        
+
       it 'should be invalid' do
         game.should_not be_valid
-      end      
+      end
     end
 
     context 'when two cells are nil, but board is valid' do
       let(:incomplete_board) {
         {
-          0 => 1, 1 => nil, 2 => 3, 3 => 2, 
-          4 => 2, 5 => 3, 6 => nil, 7 => 1, 
-          8 => 3, 9 => 2, 10 => 1, 11 => 4, 
+          0 => 1, 1 => nil, 2 => 3, 3 => 2,
+          4 => 2, 5 => 3, 6 => nil, 7 => 1,
+          8 => 3, 9 => 2, 10 => 1, 11 => 4,
           12 => 4, 13 => 1, 14 => 2, 15 => 3
         }
       }
 
-      before do 
+      before do
         incomplete_board.each do |index, value|
           game.board.set_value(index,value)
         end
       end
-        
+
       it 'should be valid' do
         game.should be_valid
-      end      
+      end
     end
 
     context 'when a cell has an illegal value' do
       let(:illegal_board) {
         {
-          0 => 1, 1 => nil, 2 => 3, 3 => 2, 
-          4 => 2, 5 => 3, 6 => 333, 7 => 1, 
-          8 => 3, 9 => 2, 10 => 1, 11 => 4, 
+          0 => 1, 1 => nil, 2 => 3, 3 => 2,
+          4 => 2, 5 => 3, 6 => 333, 7 => 1,
+          8 => 3, 9 => 2, 10 => 1, 11 => 4,
           12 => 4, 13 => 1, 14 => 2, 15 => 3
         }
       }
 
-      before do 
+      before do
         illegal_board.each do |index, value|
           game.board.set_value(index,value)
         end
       end
-        
+
       it 'should be invalid' do
         game.should_not be_valid
-      end      
+      end
     end
 
     context 'when boards cell values are all nil' do
       it 'should be valid' do
         game.should be_valid
-      end      
-    end    
+      end
+    end
   end
 
-  describe 'all turns taken' do 
+  describe 'all turns taken' do
     let(:last_board) {split_boards.last}
     let(:last_board_values) {last_board.scan(/\d+/)}
 
@@ -209,7 +213,7 @@ describe Game, 'functional' do
     it 'board is valid' do
       output_numbers = last_board_values.map do |value|
         value.to_i
-      end 
+      end
       game.valid?.should == true
       game.values == output_numbers
     end

@@ -22,7 +22,7 @@ class Cell
     (id % board_size) + 1
   end
 
-  def calculate_group 
+  def calculate_group
     group_dimension = Math.sqrt(board_size).to_i
     group_row = (row - 1) / group_dimension
     group_column = (column - 1) / group_dimension

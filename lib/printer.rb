@@ -23,8 +23,8 @@ class Printer
     render_board_template
     put_string template
   end
-  
+
   def put_string str
-    stdout.puts str 
+    stdout.puts str
   end
 end

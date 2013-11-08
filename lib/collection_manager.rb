@@ -1,4 +1,4 @@
-class CollectionManager #TODO ???!?!?!?!
+class CollectionManager
   attr_accessor :collection, :board_size
 
   def initialize(collection, board_size)
@@ -6,24 +6,39 @@ class CollectionManager #TODO ???!?!?!?!
     @board_size = board_size
   end
 
+  def empty?
+    collection.all? { |cell| cell.empty? }
+  end
+
   def clear
-    collection.each { |item| item.value = nil }
+    collection.each { |cell| cell.value = nil }
   end
 
   def values
-    collection.map { |item| item.value }
+    collection.map { |cell| cell.value }
+  end
+
+  def generate_values
+    row_values = valid_values
+    collection.each do |cell|
+      cell.value = row_values.pop
+    end
   end
 
   def valid?
-    (collection.compact.uniq == collection.compact) && legal?
+    (values.compact.uniq == values.compact) && legal?
   end
 
   def legal?
     collection.size == board_size &&
-    collection.compact.all?{ |element| 
+    values.compact.all? { |element|
       element.is_a?(Fixnum) &&
-      element >= 1 && 
-      element <= board_size 
+      element >= 1 &&
+      element <= board_size
     }
+  end
+
+  def valid_values
+    (1..board_size).to_a.shuffle
   end
 end

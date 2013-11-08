@@ -1,4 +1,4 @@
-class Board #TODO what are we moving?!?!
+class Board
   SIZE = 4
   attr_accessor :cells
   attr_reader :stdin, :stdout
@@ -9,14 +9,14 @@ class Board #TODO what are we moving?!?!
     @cells = (0..15).map { |id| Cell.new(id, SIZE) }
   end
 
-  def full? #TODO look at enumerables
-    !cells.detect { |cell| cell.empty? }
+  def full?
+    !cells.any? { |cell| cell.empty? }
   end
 
   def valid?
     (1..SIZE).all? do |num|
       [:row, :column, :group].all? do |collection_type|
-        CollectionManager.new(get_values_for(collection_type, num), SIZE).valid? 
+        collection_call(get_collection(collection_type, num)).valid?
       end
     end
   end
@@ -38,19 +38,11 @@ class Board #TODO what are we moving?!?!
     found_cell(index).value = value
   end
 
-  def fill_empty_row #TODO: CIWK, code ugly
-    row_values = generate_row_values
-    get_empty_row.each do |cell| 
-      cell.value = row_values.pop #could also be shift
-    end
+  def fill_empty_row
+    collection_call(first_empty_row).generate_values
   end
 
   # -----------------------------------------------------
-
-  def get_values_for(collection_type, num)
-    collection = get_collection(collection_type, num)
-    collection.map { |cell| cell.value }
-  end
 
   def get_collection(collection_type, num)
     cells.select { |cell| cell.send(collection_type) == num }
@@ -60,28 +52,24 @@ class Board #TODO what are we moving?!?!
     cells.detect { |cell| cell.id == id }
   end
 
-  def get_filled_cells
-    cells.select { |cell| !cell.empty? }
+  def first_empty_row
+    rows.detect { |row| collection_call(row).empty? }
   end
 
-  def get_empty_row #TODO rename last_filled_row?
-    empty_row_number = (last_filled_row || 0) + 1
-    cells.select { |cell| cell.row == empty_row_number }
+  def collection_call(collection)
+    CollectionManager.new(collection, SIZE)
   end
 
   def clear_row
-    get_collection(:row, last_filled_row || 1).each do |cell|
-      cell.value = nil
-    end
-  end
-
-  def generate_row_values
-    (1..SIZE).to_a.shuffle
+    return if last_filled_row == nil
+    collection_call(last_filled_row).clear
   end
 
   def last_filled_row
-    return nil if get_filled_cells.empty?
-    filled_cells_ids = get_filled_cells.map { |cell| cell.id }
-    cells[filled_cells_ids.max].row
+    rows.select { |row| !collection_call(row).empty? }.last
+  end
+
+  def rows
+    (1..SIZE).map { |row_num| get_collection(:row, row_num)}
   end
 end

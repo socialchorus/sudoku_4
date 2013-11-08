@@ -5,5 +5,3 @@ require LIB_DIR + '/cell.rb'
 require LIB_DIR + '/collection_manager.rb'
 require LIB_DIR + '/board.rb'
 require LIB_DIR + '/game.rb'
-
-

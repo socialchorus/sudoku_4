@@ -19,10 +19,10 @@ describe Board do
     end
   end
 
-  describe "#full?" do 
+  describe "#full?" do
     context 'when every cell has a non-nil value' do
       it 'should return true' do
-        Cell.any_instance.stub(:value).and_return(3)  
+        Cell.any_instance.stub(:value).and_return(3)
         board.full?.should == true
       end
     end
@@ -31,7 +31,7 @@ describe Board do
       it 'should be false' do
         board.set_value(0, 3)
         board.set_value(1, nil)
-        board.full?.should == false        
+        board.full?.should == false
       end
     end
   end
@@ -44,7 +44,7 @@ describe Board do
     }
 
     before do
-      Validator.stub(:new).and_return(validator)
+      CollectionManager.stub(:new).and_return(validator)
     end
 
     context 'the board is valid' do
@@ -65,9 +65,9 @@ describe Board do
     end
   end
 
-  describe "#print" do 
+  describe "#print" do
     let(:printer) {double("printer")}
-    
+
     before do
       Printer.stub(:new).and_return(printer)
       printer.stub(:print)
@@ -78,7 +78,7 @@ describe Board do
       board.print
     end
 
-    it 'should send print to the printer instance' do 
+    it 'should send print to the printer instance' do
       printer.should_receive(:print)
       board.print
     end
@@ -87,7 +87,7 @@ describe Board do
   describe "#value_at" do
     context 'when cell value is nil' do
       it 'value should equal space' do
-        board.cells[3].value = nil 
+        board.cells[3].value = nil
         board.value_at(3).should == " "
       end
     end
@@ -100,14 +100,14 @@ describe Board do
     end
   end
 
-  describe '#values' do 
+  describe '#values' do
     context 'when there are values on the board' do
       before do
         Cell.any_instance.stub(:value).and_return(3)
       end
 
       it 'returns all values on the board' do
-        board.values.should == Array.new(16,3) 
+        board.values.should == Array.new(16,3)
       end
     end
 
@@ -117,7 +117,7 @@ describe Board do
       end
 
       it 'returns all values on the board' do
-        board.values.should == [] 
+        board.values.should == []
       end
     end
 
@@ -126,7 +126,7 @@ describe Board do
         board.set_value(0,1)
         board.set_value(1,2)
         board.set_value(2,nil)
-        board.set_value(3,4)        
+        board.set_value(3,4)
       end
 
       it 'board values should contain only numbers' do
@@ -137,10 +137,10 @@ describe Board do
 
   describe '#set_value' do
     it 'set the value at given index' do
-      board.cells[3].value = nil 
+      board.cells[3].value = nil
       board.set_value(3,4)
       board.value_at(3).should == 4
-    end  
+    end
   end
 
   describe '#clear_row' do
@@ -155,9 +155,9 @@ describe Board do
       it 'resets all the cell values in a specified row' do
         board.cells[0..7].each { |cell| cell.value = 2 }
         board.clear_row
-        board.cells[3].value.should == 2 
-        board.cells[4].value.should == nil 
-        board.cells[7].value.should == nil 
+        board.cells[3].value.should == 2
+        board.cells[4].value.should == nil
+        board.cells[7].value.should == nil
       end
     end
   end
@@ -166,14 +166,14 @@ describe Board do
     context 'there is an empty row' do
       let(:incomplete_board) {
         {
-          0 => 1, 1 => 4, 2 => 3, 3 => 2, 
-          4 => nil, 5 => nil, 6 => nil, 7 => nil, 
-          8 => nil, 9 => nil, 10 => nil, 11 => nil, 
+          0 => 1, 1 => 4, 2 => 3, 3 => 2,
+          4 => nil, 5 => nil, 6 => nil, 7 => nil,
+          8 => nil, 9 => nil, 10 => nil, 11 => nil,
           12 => nil, 13 => nil, 14 => nil, 15 => nil
         }
       }
 
-      before do 
+      before do
         incomplete_board.each do |index, value|
           board.set_value(index, value)
         end
